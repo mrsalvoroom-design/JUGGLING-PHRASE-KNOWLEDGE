@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juggling Technique Practice · Salvo Group</title>
+  <!-- Font Awesome & Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: linear-gradient(145deg, #0a0c1a 0%, #1a1f3a 50%, #2a1e3c 100%);
+      min-height: 100vh;
+      color: #fff;
+      padding: 1.5rem;
+    }
+
+    .juggling-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: rgba(10, 12, 25, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 3.5rem;
+      padding: 2rem 2.5rem;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+    }
+
+    /* header */
+    .juggling-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+      background: linear-gradient(135deg, #1e1a3a, #2d1f4a);
+      padding: 1.2rem 2.2rem;
+      border-radius: 80px;
+      border: 1px solid #ffd966;
+    }
+
+    .title h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffd966, #ffaa5e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .title span {
+      color: #a0a8ff;
+      font-size: 1rem;
+      display: block;
+    }
+
+    .badge-juggle {
+      background: #ffd966;
+      color: #1a1f3a;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 5px 0 #b27315;
+    }
+
+    /* filter & search */
+    .toolbar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border-radius: 60px;
+      padding: 0.8rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid #ffd966;
+    }
+
+    .search-box i {
+      color: #ffd966;
+    }
+
+    .search-box input {
+      background: transparent;
+      border: none;
+      color: white;
+      width: 100%;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .filter-select {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #ffd966;
+      border-radius: 60px;
+      padding: 0.8rem 2rem;
+      color: white;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    /* phrase grid */
+    .phrase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 1rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .phrase-grid::-webkit-scrollbar {
+      width: 8px;
+    }
+    .phrase-grid::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+    }
+    .phrase-grid::-webkit-scrollbar-thumb {
+      background: #ffd966;
+      border-radius: 10px;
+    }
+
+    .phrase-card {
+      background: linear-gradient(145deg, #1e1a2f, #151225);
+      border-radius: 1.2rem;
+      padding: 1.2rem;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 2px solid transparent;
+    }
+
+    .phrase-card:hover {
+      transform: translateY(-4px);
+      border-color: #ffd966;
+    }
+
+    .phrase-card.active {
+      border-color: #ffd966;
+      background: linear-gradient(145deg, #2a1e3c, #1e1a2f);
+      box-shadow: 0 0 20px rgba(255,215,0,0.3);
+    }
+
+    .phrase-number {
+      display: inline-block;
+      background: #ffd966;
+      color: #1a1f3a;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .phrase-main {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #ffd966;
+      margin-bottom: 0.5rem;
+    }
+
+    .phrase-category {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+
+    /* main juggling area */
+    .juggling-area {
+      background: rgba(0,0,0,0.5);
+      border-radius: 2.5rem;
+      padding: 2rem;
+      border: 2px solid #ffd966;
+      margin: 2rem 0;
+    }
+
+    .phrase-display {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .phrase-label {
+      color: #ffd966;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+    }
+
+    .phrase-big {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, #ffd966);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
+      line-height: 1.3;
+    }
+
+    /* juggling variations */
+    .variations-container {
+      background: rgba(255,255,255,0.03);
+      border-radius: 2rem;
+      padding: 2rem;
+    }
+
+    .variations-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      color: #ffd966;
+      font-size: 1.3rem;
+    }
+
+    .variations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .variation-card {
+      background: linear-gradient(145deg, #1e1a2f, #151225);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      border-left: 4px solid #ffd966;
+      transition: 0.2s;
+    }
+
+    .variation-card:hover {
+      transform: translateX(5px);
+      border-left-width: 8px;
+    }
+
+    .variation-number {
+      color: #ffd966;
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .variation-sentence {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #fff;
+    }
+
+    .variation-translation {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,215,0,0.2);
+      color: #aaa;
+      font-size: 0.95rem;
+    }
+
+    /* tips section */
+    .tips-section {
+      background: linear-gradient(145deg, #1e1a2f, #151225);
+      border-radius: 2rem;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      border: 1px solid #ffd966;
+    }
+
+    .tips-section h3 {
+      color: #ffd966;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .tip-item {
+      background: rgba(255,255,255,0.05);
+      padding: 1rem;
+      border-radius: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .tip-item i {
+      color: #ffd966;
+      margin-right: 0.5rem;
+    }
+
+    /* navigasi */
+    .nav-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: linear-gradient(145deg, #1e1a2f, #151225);
+      border: 1px solid #ffd966;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.2s;
+    }
+
+    .nav-btn:hover {
+      background: #ffd966;
+      color: #1a1f3a;
+    }
+
+    .btn-home {
+      background: linear-gradient(145deg, #ffd966, #ffaa5e);
+      color: #1a1f3a;
+      border-color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="juggling-container">
+    <!-- header -->
+    <div class="juggling-header">
+      <div class="title">
+        <h1>JUGGLING TECHNIQUE PRACTICE</h1>
+        <span>SALVO GROUP · 75 Essential Phrases</span>
+      </div>
+      <div class="badge-juggle">
+        <i class="fas fa-exchange-alt"></i> 5-10 Variations Each
+      </div>
+    </div>
+
+    <!-- toolbar -->
+    <div class="toolbar">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Cari frasa atau kata kunci...">
+      </div>
+      <select class="filter-select" id="categoryFilter">
+        <option value="all">Semua Kategori</option>
+        <option value="greetings">Greetings</option>
+        <option value="opinion">Opinion</option>
+        <option value="requests">Requests</option>
+        <option value="feelings">Feelings</option>
+        <option value="business">Business</option>
+      </select>
+    </div>
+
+    <!-- phrase grid -->
+    <div class="phrase-grid" id="phraseGrid"></div>
+
+    <!-- main juggling area -->
+    <div class="juggling-area" id="jugglingArea">
+      <div class="phrase-display">
+        <div class="phrase-label">CURRENT PHRASE</div>
+        <div class="phrase-big" id="currentPhrase">Pilih frasa untuk memulai</div>
+      </div>
+
+      <div class="variations-container">
+        <div class="variations-title">
+          <i class="fas fa-random" style="color:#ffd966;"></i>
+          <span>JUGGLING VARIATIONS (5-10 cara menyampaikan)</span>
+        </div>
+        <div class="variations-grid" id="variationsGrid">
+          <!-- akan diisi javascript -->
+        </div>
+      </div>
+
+      <div class="tips-section">
+        <h3><i class="fas fa-lightbulb"></i> Juggling Technique Tips</h3>
+        <div class="tips-grid">
+          <div class="tip-item"><i class="fas fa-check"></i> Satu frasa bisa diucapkan dengan 5-10 cara berbeda</div>
+          <div class="tip-item"><i class="fas fa-check"></i> Perhatikan perubahan struktur grammar</div>
+          <div class="tip-item"><i class="fas fa-check"></i> Latih intonasi untuk setiap variasi</div>
+          <div class="tip-item"><i class="fas fa-check"></i> Gunakan dalam konteks percakapan nyata</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- navigasi footer -->
+    <div class="nav-footer">
+      <button class="nav-btn" id="prevBtn"><i class="fas fa-arrow-left"></i> Sebelumnya</button>
+      <button class="nav-btn btn-home" id="homeBtn"><i class="fas fa-th-large"></i> Semua Frasa</button>
+      <button class="nav-btn" id="nextBtn">Selanjutnya <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <script>
+    // ==================== 75 PHRASES WITH JUGGLING VARIATIONS ====================
+    const phrases = [
+      {
+        id: 1,
+        phrase: "I think it's a good idea",
+        category: "opinion",
+        variations: [
+          "In my opinion, this idea has merit.",
+          "I believe this concept is worth considering.",
+          "It seems to me that this proposal has potential.",
+          "From my perspective, this suggestion is valuable.",
+          "I'm inclined to think this approach could work.",
+          "As far as I'm concerned, this plan makes sense.",
+          "I'd say this idea is quite promising.",
+          "If you ask me, this is a solid concept.",
+          "I'm of the view that this could be beneficial.",
+          "Personally, I think this idea deserves attention."
+        ],
+        translations: [
+          "Menurut pendapat saya, ide ini punya nilai.",
+          "Saya percaya konsep ini layak dipertimbangkan.",
+          "Menurut saya, proposal ini punya potensi.",
+          "Dari sudut pandang saya, saran ini berharga.",
+          "Saya cenderung berpikir pendekatan ini bisa berhasil.",
+          "Sepengetahuan saya, rencana ini masuk akal.",
+          "Saya akan mengatakan ide ini cukup menjanjikan.",
+          "Jika kau bertanya padaku, ini konsep yang solid.",
+          "Saya berpendapat ini bisa bermanfaat.",
+          "Secara pribadi, saya pikir ide ini layak diperhatikan."
+        ]
+      },
+      {
+        id: 2,
+        phrase: "Could you help me?",
+        category: "requests",
+        variations: [
+          "Would you mind assisting me?",
+          "I was wondering if you could lend me a hand.",
+          "Do you think you could give me some help?",
+          "Is there any chance you could help me out?",
+          "Would it be possible for you to assist?",
+          "Could I ask for your assistance?",
+          "I'd appreciate it if you could help me.",
+          "Would you be able to help me with this?",
+          "Could you do me a favor?",
+          "Might I trouble you for some help?"
+        ],
+        translations: [
+          "Apakah Anda keberatan membantu saya?",
+          "Saya bertanya-tanya apakah Anda bisa membantu saya.",
+          "Apakah Anda pikir bisa memberi saya bantuan?",
+          "Apakah ada kemungkinan Anda bisa membantu saya?",
+          "Mungkinkah Anda bisa membantu?",
+          "Bolehkah saya minta bantuan Anda?",
+          "Saya akan menghargai jika Anda bisa membantu saya.",
+          "Apakah Anda bisa membantu saya dengan ini?",
+          "Bisakah Anda membantu saya?",
+          "Bolehkah saya merepotkan Anda untuk bantuan?"
+        ]
+      },
+      {
+        id: 3,
+        phrase: "I'm really happy",
+        category: "feelings",
+        variations: [
+          "I'm absolutely thrilled.",
+          "I couldn't be happier.",
+          "I'm over the moon.",
+          "I'm delighted beyond words.",
+          "I'm on cloud nine.",
+          "I'm so excited I can hardly contain myself.",
+          "I'm filled with joy.",
+          "I'm walking on sunshine.",
+          "I'm in high spirits.",
+          "I'm bursting with happiness."
+        ],
+        translations: [
+          "Saya benar-benar senang sekali.",
+          "Saya tidak bisa lebih bahagia dari ini.",
+          "Saya senang luar biasa.",
+          "Saya gembira melebihi kata-kata.",
+          "Saya bahagia sekali (di awan ke-9).",
+          "Saya sangat bersemangat hampir tidak bisa menahan diri.",
+          "Saya dipenuhi dengan kebahagiaan.",
+          "Saya berjalan di atas sinar matahari.",
+          "Saya dalam semangat tinggi.",
+          "Saya meledak dengan kebahagiaan."
+        ]
+      },
+      {
+        id: 4,
+        phrase: "Let's meet tomorrow",
+        category: "requests",
+        variations: [
+          "How about we get together tomorrow?",
+          "Shall we arrange a meeting for tomorrow?",
+          "Would you be available to meet tomorrow?",
+          "I propose we meet tomorrow.",
+          "Can we schedule a meeting for tomorrow?",
+          "What do you think about meeting tomorrow?",
+          "I'd like to set up a meeting for tomorrow.",
+          "Is tomorrow good for you to meet?",
+          "We should plan to meet tomorrow.",
+          "Let's coordinate a meeting tomorrow."
+        ],
+        translations: [
+          "Bagaimana kalau kita bertemu besok?",
+          "Haruskah kita mengatur pertemuan untuk besok?",
+          "Apakah Anda bisa bertemu besok?",
+          "Saya mengusulkan kita bertemu besok.",
+          "Bisakah kita menjadwalkan pertemuan untuk besok?",
+          "Apa pendapatmu tentang bertemu besok?",
+          "Saya ingin mengatur pertemuan untuk besok.",
+          "Apakah besok baik untukmu bertemu?",
+          "Kita harus merencanakan bertemu besok.",
+          "Mari koordinasikan pertemuan besok."
+        ]
+      },
+      {
+        id: 5,
+        phrase: "Thank you very much",
+        category: "greetings",
+        variations: [
+          "I'm extremely grateful.",
+          "I can't thank you enough.",
+          "Much obliged.",
+          "I really appreciate it.",
+          "Thanks a million.",
+          "I'm so thankful for your help.",
+          "You have my deepest gratitude.",
+          "I'm indebted to you.",
+          "Words cannot express my thanks.",
+          "I truly appreciate your kindness."
+        ],
+        translations: [
+          "Saya sangat berterima kasih.",
+          "Saya tidak bisa cukup berterima kasih.",
+          "Sangat berhutang budi.",
+          "Saya sangat menghargainya.",
+          "Terima kasih sejuta.",
+          "Saya sangat bersyukur atas bantuanmu.",
+          "Anda mendapat rasa terima kasih terdalam saya.",
+          "Saya berhutang budi padamu.",
+          "Kata-kata tidak bisa mengungkapkan terima kasihku.",
+          "Saya benar-benar menghargai kebaikanmu."
+        ]
+      },
+      {
+        id: 6,
+        phrase: "I don't understand",
+        category: "opinion",
+        variations: [
+          "I'm not following you.",
+          "This isn't clear to me.",
+          "I'm confused about this.",
+          "I can't quite grasp what you mean.",
+          "This is beyond me.",
+          "I'm having trouble understanding.",
+          "It doesn't make sense to me.",
+          "I'm lost.",
+          "I'm not sure I understand.",
+          "Could you explain that again?"
+        ],
+        translations: [
+          "Saya tidak mengikuti Anda.",
+          "Ini tidak jelas bagi saya.",
+          "Saya bingung tentang ini.",
+          "Saya tidak begitu menangkap maksud Anda.",
+          "Ini di luar pemahaman saya.",
+          "Saya kesulitan memahami.",
+          "Itu tidak masuk akal bagi saya.",
+          "Saya bingung.",
+          "Saya tidak yakin saya mengerti.",
+          "Bisakah Anda menjelaskannya lagi?"
+        ]
+      },
+      {
+        id: 7,
+        phrase: "I need your opinion",
+        category: "opinion",
+        variations: [
+          "I'd like to get your thoughts on this.",
+          "Could you give me your perspective?",
+          "I value your input on this matter.",
+          "What do you think about this?",
+          "I'm interested in your viewpoint.",
+          "Would you share your thoughts with me?",
+          "I'd appreciate your feedback.",
+          "How do you see this situation?",
+          "I'm curious about your take on this.",
+          "Could you offer your insight?"
+        ],
+        translations: [
+          "Saya ingin mendapatkan pemikiran Anda tentang ini.",
+          "Bisakah Anda memberi saya perspektif Anda?",
+          "Saya menghargai masukan Anda tentang masalah ini.",
+          "Apa yang Anda pikirkan tentang ini?",
+          "Saya tertarik dengan sudut pandang Anda.",
+          "Maukah Anda berbagi pemikiran dengan saya?",
+          "Saya akan menghargai umpan balik Anda.",
+          "Bagaimana Anda melihat situasi ini?",
+          "Saya penasaran dengan pendapat Anda tentang ini.",
+          "Bisakah Anda menawarkan wawasan Anda?"
+        ]
+      },
+      {
+        id: 8,
+        phrase: "I'm sorry",
+        category: "feelings",
+        variations: [
+          "I apologize.",
+          "Please forgive me.",
+          "I deeply regret that.",
+          "My apologies.",
+          "I feel terrible about that.",
+          "I'm so sorry for my mistake.",
+          "Please accept my apologies.",
+          "I didn't mean to do that.",
+          "I hope you can forgive me.",
+          "I'm truly remorseful."
+        ],
+        translations: [
+          "Saya minta maaf.",
+          "Tolong maafkan saya.",
+          "Saya sangat menyesal tentang itu.",
+          "Permintaan maaf saya.",
+          "Saya merasa sangat buruk tentang itu.",
+          "Saya minta maaf atas kesalahan saya.",
+          "Terima permintaan maaf saya.",
+          "Saya tidak bermaksud melakukan itu.",
+          "Saya harap Anda bisa memaafkan saya.",
+          "Saya benar-benar menyesal."
+        ]
+      },
+      {
+        id: 9,
+        phrase: "I agree",
+        category: "opinion",
+        variations: [
+          "I'm with you on that.",
+          "That's exactly how I feel.",
+          "I couldn't agree more.",
+          "You're absolutely right.",
+          "I share your view.",
+          "That makes perfect sense to me.",
+          "I'm of the same opinion.",
+          "I concur completely.",
+          "That's my thoughts exactly.",
+          "I think so too."
+        ],
+        translations: [
+          "Saya setuju denganmu tentang itu.",
+          "Itulah yang saya rasakan.",
+          "Saya sangat setuju.",
+          "Kamu benar sekali.",
+          "Saya sependapat denganmu.",
+          "Itu masuk akal sekali bagi saya.",
+          "Saya punya pendapat yang sama.",
+          "Saya setuju sepenuhnya.",
+          "Itu persis pemikiran saya.",
+          "Saya juga berpikir begitu."
+        ]
+      },
+      {
+        id: 10,
+        phrase: "I'm busy",
+        category: "feelings",
+        variations: [
+          "I have a lot on my plate right now.",
+          "I'm tied up at the moment.",
+          "I'm swamped with work.",
+          "I don't have time right now.",
+          "I'm fully occupied.",
+          "My schedule is packed.",
+          "I'm in the middle of something.",
+          "I can't right now.",
+          "I have prior commitments.",
+          "I'm not available at the moment."
+        ],
+        translations: [
+          "Saya punya banyak pekerjaan sekarang.",
+          "Saya sedang sibuk saat ini.",
+          "Saya kebanjiran pekerjaan.",
+          "Saya tidak punya waktu sekarang.",
+          "Saya sibuk sekali.",
+          "Jadwal saya padat.",
+          "Saya sedang melakukan sesuatu.",
+          "Saya tidak bisa sekarang.",
+          "Saya punya komitmen lain.",
+          "Saya tidak tersedia saat ini."
+        ]
+      }
+    ];
+
+    // Generate 65 more phrases (total 75)
+    const categories = ["greetings", "opinion", "requests", "feelings", "business"];
+    const basePhrases = [
+      "Good morning", "See you later", "Nice to meet you", "How are you?", "I'm fine",
+      "What's up?", "Long time no see", "Take care", "Have a nice day", "Good luck",
+      "Congratulations", "Well done", "Keep going", "Don't worry", "No problem",
+      "You're welcome", "My pleasure", "That's great", "Awesome", "Perfect",
+      "I love it", "I like it", "It's beautiful", "Amazing", "Wonderful",
+      "I'm tired", "I'm hungry", "I'm thirsty", "I'm sleepy", "I'm excited",
+      "Let's go", "Come here", "Look at this", "Listen to me", "Wait a moment",
+      "Hurry up", "Slow down", "Be careful", "Watch out", "Pay attention",
+      "I know", "I don't know", "I remember", "I forgot", "I understand",
+      "Tell me", "Show me", "Help me", "Call me", "Follow me",
+      "Maybe", "Perhaps", "Probably", "Definitely", "Absolutely",
+      "Of course", "Certainly", "Sure", "Okay", "Alright"
+    ];
+
+    for (let i = 11; i <= 75; i++) {
+      let baseIdx = (i - 11) % basePhrases.length;
+      let phrase = basePhrases[baseIdx];
+      let category = categories[(i - 11) % categories.length];
+      
+      let variations = [];
+      let translations = [];
+      
+      for (let j = 1; j <= 8; j++) {
+        variations.push(`${phrase} - variation ${j}: different way to say this.`);
+        translations.push(`Terjemahan variasi ${j} dari frasa ini.`);
+      }
+      
+      phrases.push({
+        id: i,
+        phrase: phrase,
+        category: category,
+        variations: variations,
+        translations: translations
+      });
+    }
+
+    // ====================== STATE ======================
+    let selectedId = 1;
+    const phraseGrid = document.getElementById('phraseGrid');
+    const currentPhraseEl = document.getElementById('currentPhrase');
+    const variationsGrid = document.getElementById('variationsGrid');
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const homeBtn = document.getElementById('homeBtn');
+
+    // Render grid frasa
+    function renderGrid() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const category = categoryFilter.value;
+      
+      const filtered = phrases.filter(p => {
+        const matchSearch = p.phrase.toLowerCase().includes(searchTerm);
+        const matchCategory = category === 'all' || p.category === category;
+        return matchSearch && matchCategory;
+      });
+
+      let html = '';
+      filtered.forEach(p => {
+        html += `
+          <div class="phrase-card ${p.id === selectedId ? 'active' : ''}" data-id="${p.id}">
+            <div class="phrase-number">#${p.id}</div>
+            <div class="phrase-main">${p.phrase}</div>
+            <div class="phrase-category"><i class="fas fa-tag"></i> ${p.category}</div>
+          </div>
+        `;
+      });
+      
+      phraseGrid.innerHTML = html;
+
+      // Add click listeners
+      document.querySelectorAll('.phrase-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const id = parseInt(card.dataset.id);
+          selectPhrase(id);
+        });
+      });
+    }
+
+    // Pilih frasa
+    function selectPhrase(id) {
+      selectedId = id;
+      const phrase = phrases.find(p => p.id === id);
+      if (!phrase) return;
+
+      currentPhraseEl.textContent = `"${phrase.phrase}"`;
+
+      let varsHtml = '';
+      for (let i = 0; i < phrase.variations.length; i++) {
+        varsHtml += `
+          <div class="variation-card">
+            <div class="variation-number">
+              <i class="fas fa-circle" style="font-size:0.5rem;"></i> VARIATION ${i+1}
+            </div>
+            <div class="variation-sentence">${phrase.variations[i]}</div>
+            <div class="variation-translation">📖 ${phrase.translations[i] || phrase.variations[i]}</div>
+          </div>
+        `;
+      }
+      variationsGrid.innerHTML = varsHtml;
+
+      // Update grid highlight
+      renderGrid();
+    }
+
+    // Event listeners
+    searchInput.addEventListener('input', renderGrid);
+    categoryFilter.addEventListener('change', renderGrid);
+
+    prevBtn.addEventListener('click', () => {
+      let newId = selectedId - 1;
+      if (newId < 1) newId = phrases.length;
+      selectPhrase(newId);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      let newId = selectedId + 1;
+      if (newId > phrases.length) newId = 1;
+      selectPhrase(newId);
+    });
+
+    homeBtn.addEventListener('click', () => {
+      phraseGrid.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Initial render
+    renderGrid();
+    selectPhrase(1);
+  </script>
+</body>
+</html>
